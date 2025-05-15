@@ -22,7 +22,7 @@ jobs:
             exit 1
           if: ${{contains(needs.*.result, 'failure')}}
   test_phase:
-    needs: [prebuild_phase, TrainTensorflowONNX, TrainOperator_MnistCalculatorTL, TrainHexadecimal_MnistCalculatorTL, TrainHexadecimal_MnistCalculator, TestMnistWithAdaNet, TestMNISTwithCustomLayer, TestMavenStreamtestPlugin, DeployDecompositionResNetArtifact, TrainOperator_MnistCalculator, TestGluonONNX, TestEMADLMavenPlugin, TestTENSORFLOW]
+    needs: [prebuild_phase, TestMavenStreamtestPlugin, TestEMADLMavenPlugin, TestTENSORFLOW, DeployDecompositionResNetArtifact, TrainHexadecimal_MnistCalculatorTL, TestMNISTwithCustomLayer, TrainHexadecimal_MnistCalculator, TrainTensorflowONNX, TrainOperator_MnistCalculator, TrainOperator_MnistCalculatorTL, TestMnistWithAdaNet, TestGluonONNX]
     if: ${{ !cancelled()}}
     runs-on: ubuntu-latest
     steps:
@@ -34,7 +34,7 @@ jobs:
             exit 1
           if: ${{contains(needs.*.result, 'failure')}}
   testmodular_phase:
-    needs: [test_phase, TestTransfer, TestDecomposition, TestModularModels, TestDecompositionResNet]
+    needs: [test_phase, TestDecomposition, TestModularModels, TestTransfer, TestDecompositionResNet]
     if: ${{ !cancelled()}}
     runs-on: ubuntu-latest
     steps:
@@ -56,15 +56,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           docker pull registry.git.rwth-aachen.de/monticore/embeddedmontiarc/applications/mnistcalculator/tensorflow
@@ -91,15 +82,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -127,15 +109,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -173,15 +146,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -220,15 +184,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -273,15 +228,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -319,15 +265,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -359,15 +296,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -393,15 +321,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -441,15 +360,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -482,15 +392,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -535,15 +436,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Script
         run: |
             cd applications/MNISTCalculator
@@ -559,15 +451,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -606,15 +489,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -646,15 +520,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -687,15 +552,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -726,15 +582,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin

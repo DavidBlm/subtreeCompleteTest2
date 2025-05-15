@@ -22,7 +22,7 @@ jobs:
             exit 1
           if: ${{contains(needs.*.result, 'failure')}}
   integration_phase:
-    needs: [linuxCompile_phase, Ros2IntegrationJob, SomeIPIntegrationJob, RosIntegrationJob, MqttIntegrationJob]
+    needs: [linuxCompile_phase, MqttIntegrationJob, SomeIPIntegrationJob, Ros2IntegrationJob, RosIntegrationJob]
     if: ${{ !cancelled()}}
     runs-on: ubuntu-latest
     steps:
@@ -42,15 +42,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           docker pull maven:3-jdk-8
@@ -81,15 +72,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -117,15 +99,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -155,15 +128,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -192,15 +156,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -230,15 +185,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:

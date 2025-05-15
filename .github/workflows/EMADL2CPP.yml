@@ -107,7 +107,7 @@ jobs:
           fi
           echo "run=$run" >> $GITHUB_OUTPUT
   docker_phase:
-    needs: [buildDockerMXNet150, buildDockerMXNet170, buildDockerDGLQD, buildDockerMXNet170onnx, buildDockerPyTorch, buildDockerMXNet170DGL, buildDockerTensorflowONNX]
+    needs: [buildDockerDGLQD, buildDockerMXNet170onnx, buildDockerTensorflowONNX, buildDockerPyTorch, buildDockerMXNet170DGL, buildDockerMXNet150, buildDockerMXNet170]
     if: ${{ !cancelled()}}
     runs-on: ubuntu-latest
     steps:
@@ -119,7 +119,7 @@ jobs:
             exit 1
           if: ${{contains(needs.*.result, 'failure')}}
   linux_phase:
-    needs: [docker_phase, UnitTestJobLinux, modularityTest, integrationCaffe2JobLinux, artifact-extraction, integrationMXNetJobLinux, integrationGluonJobLinux, integrationTensorflowJobLinux, integrationPythonWrapperTest, integrationPyTorchJobLinux]
+    needs: [docker_phase, integrationCaffe2JobLinux, integrationTensorflowJobLinux, integrationPythonWrapperTest, integrationPyTorchJobLinux, UnitTestJobLinux, integrationMXNetJobLinux, modularityTest, integrationGluonJobLinux, artifact-extraction]
     if: ${{ !cancelled()}}
     runs-on: ubuntu-latest
     steps:
@@ -153,15 +153,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           docker pull maven:3-jdk-8
@@ -195,15 +186,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           docker pull maven:3-jdk-8
@@ -225,15 +207,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -258,15 +231,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -290,15 +254,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
@@ -334,15 +289,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           docker pull registry.git.rwth-aachen.de/monticore/embeddedmontiarc/generators/emadl2cpp/integrationtests/tensorflow
@@ -365,15 +311,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           docker pull registry.git.rwth-aachen.de/monticore/embeddedmontiarc/generators/emadl2cpp/dockerimages/pytorch
@@ -396,15 +333,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           docker pull registry.git.rwth-aachen.de/monticore/embeddedmontiarc/generators/emadl2pythonwrapper/tests/mvn-swig:latest
@@ -435,15 +363,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           docker pull registry.git.rwth-aachen.de/monticore/embeddedmontiarc/generators/emadl2cpp/mxnet/190
@@ -473,15 +392,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           docker pull registry.git.rwth-aachen.de/monticore/embeddedmontiarc/applications/gans/mnist-infogan/gans_mxnet:latest
@@ -512,15 +422,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Script
         run: |
             cd generators/EMADL2CPP
@@ -536,15 +437,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Script
         run: |
             cd generators/EMADL2CPP
@@ -560,15 +452,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Script
         run: |
             cd generators/EMADL2CPP
@@ -584,15 +467,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Script
         run: |
             cd generators/EMADL2CPP
@@ -612,15 +486,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Script
         run: |
             cd generators/EMADL2CPP
@@ -640,15 +505,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Script
         run: |
             cd generators/EMADL2CPP
@@ -668,15 +524,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Script
         run: |
             cd generators/EMADL2CPP
@@ -696,15 +543,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Start Docker Container
         run: |
           docker pull ubuntu:22.04
@@ -741,15 +579,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Restore large files
-        run: |
-          ls
-          find . -type f -name '*.part*' | sort | while read part; do
-          echo "Restoring $part"
-          base=$(echo "$part" | sed 's/.part.*//')
-          cat "$part" >> "$base"
-          rm "$part"
-          done
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
