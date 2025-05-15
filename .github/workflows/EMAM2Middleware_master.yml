@@ -22,7 +22,7 @@ jobs:
             exit 1
           if: ${{contains(needs.*.result, 'failure')}}
   integration_phase:
-    needs: [linuxCompile_phase, MqttIntegrationJob, SomeIPIntegrationJob, Ros2IntegrationJob, RosIntegrationJob]
+    needs: [linuxCompile_phase, RosIntegrationJob, MqttIntegrationJob, Ros2IntegrationJob, SomeIPIntegrationJob]
     if: ${{ !cancelled()}}
     runs-on: ubuntu-latest
     steps:
