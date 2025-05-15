@@ -28,7 +28,7 @@ jobs:
             fi
             LOWERCASE_IMAGE=$(echo "$IMAGE" | tr "[:upper:]" "[:lower:]")
             if [[ $IMAGE == :* ]]; then
-              GHCR_IMAGE="ghcr.io/$LOWERCASE_OWNER/emam2middleware/$LOWERCASE_IMAGE"
+              GHCR_IMAGE="ghcr.io/$LOWERCASE_OWNER/emam2middleware$LOWERCASE_IMAGE"
             else
                GHCR_IMAGE="ghcr.io/$LOWERCASE_OWNER/emam2middleware/$LOWERCASE_IMAGE"
             fi
@@ -53,7 +53,7 @@ jobs:
             fi
             LOWERCASE_IMAGE=$(echo "$IMAGE" | tr "[:upper:]" "[:lower:]")
             if [[ $IMAGE == :* ]]; then
-              GHCR_IMAGE="ghcr.io/$LOWERCASE_OWNER/emadl2cpp/$LOWERCASE_IMAGE"
+              GHCR_IMAGE="ghcr.io/$LOWERCASE_OWNER/emadl2cpp$LOWERCASE_IMAGE"
             else
                GHCR_IMAGE="ghcr.io/$LOWERCASE_OWNER/emadl2cpp/$LOWERCASE_IMAGE"
             fi
@@ -78,7 +78,7 @@ jobs:
             fi
             LOWERCASE_IMAGE=$(echo "$IMAGE" | tr "[:upper:]" "[:lower:]")
             if [[ $IMAGE == :* ]]; then
-              GHCR_IMAGE="ghcr.io/$LOWERCASE_OWNER/mnistcalculator/$LOWERCASE_IMAGE"
+              GHCR_IMAGE="ghcr.io/$LOWERCASE_OWNER/mnistcalculator$LOWERCASE_IMAGE"
             else
                GHCR_IMAGE="ghcr.io/$LOWERCASE_OWNER/mnistcalculator/$LOWERCASE_IMAGE"
             fi
